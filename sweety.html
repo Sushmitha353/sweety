@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: auto;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .addTask {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .addTask:hover {
+            background-color: #45a049;
+        }
+
+        .taskInput {
+            margin: 10px 0;
+        }
+
+        .task {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .task .icons i {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .task .icons i:hover {
+            color: #4CAF50;
+        }
+
+        .task i.completed {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>To Do List</h1>
+        </div>
+        <div class="addTask" onclick="addTask()">+ Add Task</div>
+        <div class="taskInput" id="taskInput" style="display: none;">
+            <input type="text" id="task" placeholder="Enter your task" />
+            <button onclick="addToList()">Add</button>
+        </div>
+        <div id="taskList">
+        </div>
+    </div>
+    <script>
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            if (taskInput.style.display === "none") {
+                taskInput.style.display = "block";
+            } else {
+                taskInput.style.display = "none";
+            }
+        }
+
+        function addToList() {
+            var taskList = document.getElementById("taskList");
+            var task = document.getElementById("task").value;
+            var newTask = document.createElement("div");
+            newTask.setAttribute("class", "task");
+            newTask.innerHTML = `
+                <input type="checkbox" class="completedCheck">
+                <span>${task}</span>
+                <div class="icons">
+                    <i class="far fa-edit"></i>
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+            `;
+            taskList.appendChild(newTask);
+            document.getElementById("task").value = "";
+            addTask();
+        }
+
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.completedCheck')) {
+                event.target.parentNode.classList.toggle('completed');
+            } else if (event.target.matches('.fa-trash-alt')) {
+                event.target.parentNode.parentNode.remove();
+            }
+        });
+    </script>
+</body>
+</html>
